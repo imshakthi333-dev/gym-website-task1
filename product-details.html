@@ -1,0 +1,94 @@
+<<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Details</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 40px;
+            background-color: #121212;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+        }
+        .details-container {
+            max-width: 600px;
+            width: 100%;
+            background: #1e1e1e;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        h1 { font-size: 2rem; margin-bottom: 10px; color: #ff4757; }
+        .price-tag { font-size: 1.5rem; color: #4caf50; margin-bottom: 20px; font-weight: bold; }
+        table { width: 100%; margin: 20px 0; border-collapse: collapse; }
+        td { padding: 12px; border-bottom: 1px solid #333; }
+        .btn { 
+            width: 100%;
+            padding: 15px; 
+            background-color: #ff4757; 
+            color: white; 
+            border: none; 
+            border-radius: 5px;
+            cursor: pointer; 
+            font-size: 1.1rem;
+            transition: 0.3s;
+        }
+        .btn:hover { background-color: #e84118; }
+    </style>
+</head>
+<body>
+
+    <div class="details-container">
+        <h1 id="prod-name">Loading...</h1>
+        <div class="price-tag" id="prod-price"></div>
+        <p id="prod-desc"></p>
+        
+        <table>
+            <tr><td>Serving Size</td><td id="spec-serving"></td></tr>
+            <tr><td>Key Feature</td><td id="spec-feature"></td></tr>
+            <tr><td>Best Used For</td><td id="spec-use"></td></tr>
+        </table>
+
+        <button class="btn" onclick="placeOrder(document.getElementById('prod-name').innerText, 1)">
+            Confirm & Secure Checkout
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productType = urlParams.get('item');
+
+            const productData = {
+                protein: { name: "Whey Protein", price: "₹2,499", desc: "Ultra-pure protein for maximum muscle recovery.", serving: "30g", feature: "Low Carb", use: "Post-Workout" },
+                creatine: { name: "Creatine", price: "₹1,200", desc: "Premium grade creatine for explosive strength and power.", serving: "5g", feature: "Max Purity", use: "Strength Support" }
+            };
+
+            const data = productData[productType];
+
+            if (data && document.getElementById('prod-name')) {
+                document.getElementById('prod-name').innerText = data.name;
+                document.getElementById('prod-price').innerText = data.price;
+                document.getElementById('prod-desc').innerText = data.desc;
+                document.getElementById('spec-serving').innerText = data.serving;
+                document.getElementById('spec-feature').innerText = data.feature;
+                document.getElementById('spec-use').innerText = data.use;
+            } else {
+                console.error("Product data not found!");
+            }
+        });
+
+        function placeOrder(productName, quantity) {
+            alert("Success! Your order for " + productName + " has been placed.");
+            const btn = document.querySelector('.btn');
+            if (btn) {
+                btn.innerText = "Order Confirmed!";
+                btn.style.backgroundColor = "green";
+                btn.disabled = true;
+            }
+        }
+    </script>
+</body>
+</html>
